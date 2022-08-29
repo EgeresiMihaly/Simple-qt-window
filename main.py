@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import QWidget, QApplication, QLineEdit, QPushButton, QVBoxLayout
-import sys
+import sys, json
 
 
 class RegistrationForm(QWidget):
@@ -39,7 +39,6 @@ class RegistrationForm(QWidget):
         #connect signals/ slot mechanism
 
         save_button.clicked.connect(self.save_action)
-        self.first_name_field.textChanged.connect(self.first_name_changed)
 
     def save_action(self):
         data_dictionary = {
@@ -50,10 +49,18 @@ class RegistrationForm(QWidget):
             "address": self.address_field.text()
         }
 
+        with open("user_data.json", "w") as f:
+            json.dump(data_dictionary, f)
 
-    def first_name_changed(self,value):
-        print(value)
+        # clear fields
+        self.first_name_field.clear()
+        self.last_name_field.clear()
+        self.phone_field.clear()
+        self.email_field.clear()
+        self.address_field.clear()
 
+
+    
 if __name__ == "__main__":
     app = QApplication(sys.argv)
 
